@@ -1,10 +1,9 @@
-version: '3.8'
-
 services:
   frontend-dev:
     build:
       context: .
       dockerfile: Dockerfile.prod
+    container_name: auth_frontend_dev
     ports:
       - "3000:3000"
     environment:

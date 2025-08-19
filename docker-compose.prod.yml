@@ -1,0 +1,28 @@
+services:
+  frontend:
+    build: 
+      context: .
+      dockerfile: Dockerfile.prod
+    image: chatbot-integration/frontend:latest
+    container_name: chatbot_frontend
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      NODE_ENV: production
+    networks:
+      - chatbot-network
+    ports:
+      - "127.0.0.1:3000:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    volumes:
+      - ./logs:/app/logs
+
+networks:
+  chatbot-network:
+    name: chatbot-network
+    external: true
