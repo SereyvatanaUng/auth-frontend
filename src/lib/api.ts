@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.chatbot-integration.xyz';
 
 export interface User {
   id: number;
@@ -20,6 +20,7 @@ export const authApi = {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
+      credentials: 'include',
     });
 
     if (!response.ok) {
@@ -37,6 +38,7 @@ export const authApi = {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
+      credentials: 'include',
     });
 
     if (!response.ok) {
@@ -52,6 +54,7 @@ export const authApi = {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
+      credentials: 'include',
     });
 
     if (!response.ok) {
@@ -61,3 +64,5 @@ export const authApi = {
     return response.json();
   },
 };
+
+export { API_BASE_URL };
